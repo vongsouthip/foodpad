@@ -23,14 +23,14 @@ class WelcomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/logo.png', height: 200),
+              Image.asset('assets/icon.png', height: 300),
               Text(
                 textAlign: TextAlign.center,
-                'Food\nBloggers',
+                'FoodPad',
                 style: TextStyle(
-                  fontFamily: GoogleFonts.dmSans().fontFamily,
+                  fontFamily: GoogleFonts.lobster().fontFamily,
                   color: Colors.white,
-                  fontSize: 30,
+                  fontSize: 50,
                   fontWeight: FontWeight.bold,
                 ),
               ),

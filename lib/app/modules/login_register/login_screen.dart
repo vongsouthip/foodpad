@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodpad/app/modules/components/colors.dart';
+import 'package:foodpad/app/modules/login_register/login_email_screen.dart';
 import 'package:foodpad/app/modules/login_register/register_email.dart';
-import 'package:foodpad/app/modules/login_register/welcome_page.dart';
 import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -91,7 +91,9 @@ class LoginScreen extends StatelessWidget {
                       const Spacer(),
                       Center(
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.to(LoginEmailScreen());
+                          },
                           child: const Text(
                             "Have an account? Login",
                             style: TextStyle(color: Colors.black),

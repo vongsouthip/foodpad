@@ -37,6 +37,22 @@ dependencies:
   flutter_native_splash: ^2.4.5
   google_fonts: ^6.2.1
   get: ^4.7.2
+  firebase_core: ^3.13.0
+  firebase_auth: ^5.5.2
+  cloud_firestore: ^5.6.6
+  google_sign_in: ^6.3.0
+  shared_preferences: ^2.5.3
+  flutter_facebook_auth: ^7.1.1
+  google_nav_bar: ^5.0.7
+  line_icons: ^2.0.3
+  image_picker: ^1.1.2
+  dio: ^5.8.0+1
+  firebase_storage: ^12.4.5
+  quickalert: ^1.1.0
+  dropdown_button2: ^2.3.9
+  convex_bottom_bar: ^3.2.0
+  stroke_text: ^1.0.0
+  reorderables: ^0.6.0
 
 dev_dependencies:
   flutter_test:

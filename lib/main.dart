@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:foodpad/app/modules/home/convect_navbar.dart';
+import 'package:foodpad/app/modules/home/edit_profile_screen.dart';
+import 'package:foodpad/app/modules/home/home.dart';
+import 'package:foodpad/app/modules/home/nav_bar.dart';
+import 'package:foodpad/app/modules/login_register/login_screen.dart';
 import 'package:foodpad/app/modules/login_register/welcome_page.dart';
+import 'package:foodpad/splash.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-
-  
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: const WelcomePage(),
+      theme: ThemeData(
+        fontFamily: GoogleFonts.dmSans().fontFamily,
+      ),
+      home: SplashView(),
+      routes: {
+        '/splash': (context) => SplashView(),
+        '/login': (context) => LoginScreen(),
+        '/nav': (context) => NavBarScreen(),
+        '/welcome': (context) => WelcomePage(),
+        '/editProfile': (context) => EditProfilePage(),
+        '/home': (context) => HomePage(),
+        '/navbar': (context) => MainNavScreen(),
+      },
     );
   }
 }

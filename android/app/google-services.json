@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "645776196044",
+    "project_id": "recipe-food-497df",
+    "storage_bucket": "recipe-food-497df.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645776196044:android:c8cb12d1450d048069dd69",
+        "android_client_info": {
+          "package_name": "com.example.foodpad"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfvxOTw8UXJNS8K1-hr9Uqh24yvxuCL38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645776196044:android:80b15df5c31342bf69dd69",
+        "android_client_info": {
+          "package_name": "com.example.recipe_food_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfvxOTw8UXJNS8K1-hr9Uqh24yvxuCL38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

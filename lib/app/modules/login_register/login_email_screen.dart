@@ -1,37 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:foodpad/app/controller/register_controller.dart';
+import 'package:foodpad/app/controller/login_email_controller.dart';
 import 'package:foodpad/app/modules/components/colors.dart';
-import 'package:foodpad/app/modules/login_register/login_email_screen.dart';
 import 'package:get/get.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({Key? key}) : super(key: key);
-  final _formKey1 = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
-
-  final RegisterController registerController = Get.put(RegisterController());
+class LoginEmailScreen extends StatelessWidget {
+  LoginEmailScreen({Key? key}) : super(key: key);
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final LoginController _loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 50,
-            right: 20,
-            child: TextButton(
-              onPressed: () {
-                Get.to(LoginEmailScreen(), transition: Transition.rightToLeft);
-              },
-              child: const Text(
-                "Login",
-                style: TextStyle(color: Colors.black, fontSize: 16),
-              ),
-            ),
-          ),
           Positioned(
             top: 50,
             width: 80,
@@ -57,13 +40,13 @@ class RegisterScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(30.0),
             child: Form(
-              key: _formKey1,
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 20),
                   const Text(
-                    "Register",
+                    "Login",
                     style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -71,19 +54,9 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  //register with email
                   TextFormField(
+                    controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "please enter your email";
-                      }
-                      if (!value.contains("@")) {
-                        return "please enter a valid email";
-                      }
-                      return null;
-                    },
                     decoration: InputDecoration(
                       hintText: "Email",
                       filled: true,
@@ -93,20 +66,18 @@ class RegisterScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    obscureText: true,
-                    controller: passwordController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "please enter your password";
-                      }
-                      if (value.length < 6) {
-                        return "password must be at least 6 characters";
+                      if (value!.isEmpty) {
+                        return "Email is required";
                       }
                       return null;
                     },
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: _passwordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Password",
                       filled: true,
@@ -116,20 +87,12 @@ class RegisterScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextFormField(
-                    obscureText: true,
-                    controller: confirmPasswordController,
-                    decoration: InputDecoration(
-                      hintText: "Confirm Password",
-                      filled: true,
-                      fillColor: CustomColors.fillColor,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "Password is required";
+                      }
+                      return null;
+                    },
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -143,23 +106,13 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              "By creating an account, you agree to our",
-              style: TextStyle(color: Colors.grey.shade600),
-            ),
-            Text(
-              "Terms & Conditions",
-              style: TextStyle(color: Colors.grey.shade600),
-            ),
-            const SizedBox(height: 20),
             Obx(
               () => ElevatedButton(
                 onPressed: () {
-                  if (_formKey1.currentState!.validate()) {
-                    registerController.register(
-                      email: emailController.text,
-                      password: passwordController.text,
-                      confirmPassword: confirmPasswordController.text,
+                  if (_formKey.currentState!.validate()) {
+                    _loginController.login(
+                      _emailController.text,
+                      _passwordController.text,
                     );
                   }
                 },
@@ -170,12 +123,12 @@ class RegisterScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: registerController.isLoading.value
+                child: _loginController.isLoading.value
                     ? const CircularProgressIndicator(
                         color: Colors.white,
                       )
                     : const Text(
-                        "Register",
+                        "Login",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
