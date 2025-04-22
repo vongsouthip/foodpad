@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:foodpad/app/controller/edit_profile_controller.dart';
 import 'package:foodpad/app/modules/home/add_menu.dart';
+import 'package:foodpad/app/modules/home/home_widget.dart';
 import 'package:foodpad/app/modules/home/profile_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -93,24 +94,15 @@ class HomePage extends StatelessWidget {
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
               ),
-              ListView.builder(
-                itemCount: 15,
-                itemBuilder: (context, index) {
-                  return ListTile(title: Text('Recipe $index'));
-                },
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-              ),
+              const SizedBox(height: 10),
+              buildRecipeCard(),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddMenu()),
-          );
+          Get.to(AddMenu());
         },
         backgroundColor: Colors.white,
         child: Icon(Icons.add, color: Colors.black),

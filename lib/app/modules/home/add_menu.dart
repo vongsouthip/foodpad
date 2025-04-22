@@ -90,7 +90,7 @@ class AddMenu extends StatelessWidget {
                           );
                         } else {
                           controller.submitRecipe();
-                          Get.offAllNamed('/home');
+                          Get.offAllNamed('/main_nav_screen');
                         }
                       },
                       child: Text(

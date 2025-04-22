@@ -9,7 +9,6 @@ class MyRecipesController extends GetxController {
   var recipes = [].obs;
   var isLoading = false.obs;
   var imageUrls = <String>[].obs;
-  // สำหรับใช้ในหน้า Detail
   var ingredients = <String>[].obs;
   var directions = <String>[].obs;
 
@@ -20,7 +19,6 @@ class MyRecipesController extends GetxController {
     super.onInit();
     fetchMyRecipes();
   }
-
   /// ✅ โหลดเฉพาะเมนูของผู้ใช้ปัจจุบัน
   Future<void> fetchMyRecipes() async {
     isLoading.value = true;
@@ -62,7 +60,7 @@ class MyRecipesController extends GetxController {
           .doc(docId)
           .delete();
       fetchMyRecipes();
-      Get.back();
+      Get.back(result: true);
       Get.snackbar("Deleted", "Recipe has been deleted");
     } catch (e) {
       Get.snackbar("Error", "Failed to delete recipe");
@@ -146,7 +144,7 @@ class MyRecipesController extends GetxController {
         'directions': directions,
       });
       fetchMyRecipes();
-      Get.back();
+      Get.back(result: true);
       Get.snackbar("Success", "Recipe updated successfully");
     } catch (e) {
       Get.snackbar("Error", "Failed to update recipe");

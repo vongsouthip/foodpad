@@ -24,6 +24,7 @@ class MyRecipeDetailScreen extends StatelessWidget {
     ); // โหลด imageUrls, ingredients, directions
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text("Edit Recipe"),
         actions: [
@@ -54,9 +55,9 @@ class MyRecipeDetailScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ReorderableWrap(
-                    spacing: 10,
+                    spacing: 10, //space ระหว่างรูป
                     runSpacing: 10,
-                    needsLongPressDraggable: false, // drag ได้เลย
+                    needsLongPressDraggable: false, // drag dont long press
                     onReorder: (oldIndex, newIndex) async {
                       final moved = controller.imageUrls.removeAt(oldIndex);
                       controller.imageUrls.insert(newIndex, moved);
@@ -139,46 +140,85 @@ class MyRecipeDetailScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 20),
-            TextField(
+            const Text("Title", style: TextStyle(fontWeight: FontWeight.bold)),
+            TextFormField(
               controller: titleCtrl,
-              decoration: const InputDecoration(labelText: "Title"),
+              decoration: InputDecoration(
+                hintText: "Enter title...",
+                filled: true,
+                fillColor: CustomColors.fillColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
             ),
             const SizedBox(height: 12),
+            const Text(
+              "Cooking time",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             TextField(
               controller: timeCtrl,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: "Cooking Time (min)",
+              decoration: InputDecoration(
+                hintText: "Cooking time (min)",
+                filled: true,
+                fillColor: CustomColors.fillColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
               ),
             ),
-
-            const SizedBox(height: 20),
+            const SizedBox(height: 12),
             const Text(
               "Ingredients",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             Obx(
               () => Column(
-                children: List.generate(controller.ingredients.length, (index) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          initialValue: controller.ingredients[index],
-                          onChanged:
-                              (val) => controller.ingredients[index] = val,
-                          decoration: const InputDecoration(
-                            hintText: "Ingredient",
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.ingredients.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              initialValue: controller.ingredients[index],
+                              onChanged:
+                                  (val) => controller.ingredients[index] = val,
+                              decoration: InputDecoration(
+                                hintText: "ingredient",
+                                filled: true,
+                                fillColor: CustomColors.fillColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed:
+                                      () => controller.ingredients.removeAt(
+                                        index,
+                                      ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => controller.ingredients.removeAt(index),
-                      ),
-                    ],
-                  );
-                }),
+                        ],
+                      );
+                    },
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 12),
+                  ),
+                ],
               ),
             ),
             TextButton.icon(
@@ -194,24 +234,46 @@ class MyRecipeDetailScreen extends StatelessWidget {
             ),
             Obx(
               () => Column(
-                children: List.generate(controller.directions.length, (index) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          initialValue: controller.directions[index],
-                          onChanged:
-                              (val) => controller.directions[index] = val,
-                          decoration: const InputDecoration(hintText: "Step"),
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
-                        onPressed: () => controller.directions.removeAt(index),
-                      ),
-                    ],
-                  );
-                }),
+                children: [
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.directions.length,
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: TextFormField(
+                              initialValue: controller.directions[index],
+                              onChanged:
+                                  (val) => controller.directions[index] = val,
+                              decoration: InputDecoration(
+                                hintText: "Direction",
+                                filled: true,
+                                fillColor: CustomColors.fillColor,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                  onPressed:
+                                      () =>
+                                          controller.directions.removeAt(index),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 12),
+                  ),
+                ],
               ),
             ),
             TextButton.icon(

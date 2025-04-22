@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:foodpad/app/controller/add_menu_controller.dart';
 import 'package:foodpad/app/modules/components/colors.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 Widget dropDownDifficulty() {
   final controller = Get.put(AddMenuController());
