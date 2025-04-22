@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foodpad/app/modules/home/nav_bar.dart';
-import 'package:foodpad/app/modules/login_register/login_screen.dart';
 import 'package:foodpad/app/modules/login_register/setup_screen.dart';
 import 'package:foodpad/app/modules/login_register/welcome_page.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,7 @@ class LoginController extends GetxController {
       );
 
       final uid = userCredential.user!.uid;
-  
+
       // บันทึก UID ไว้ใน SharedPreferences
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setString('uid', uid);
@@ -44,6 +43,7 @@ class LoginController extends GetxController {
       isLoading.value = false;
     }
   }
+
   Future<void> logout() async {
     try {
       await _auth.signOut();

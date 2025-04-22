@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:foodpad/app/modules/home/add_menu.dart';
 import 'package:foodpad/app/modules/home/home.dart';
 import 'package:foodpad/app/modules/home/profile_screen.dart';
-import 'package:foodpad/app/modules/home/search.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -13,10 +12,6 @@ class NavBarScreen extends StatefulWidget {
 
 class _NavBarScreenState extends State<NavBarScreen> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle = TextStyle(
-    fontSize: 30,
-    fontWeight: FontWeight.w600,
-  );
   final List<Widget> _widgetOptions = <Widget>[
     HomePage(),
     AddMenu(),
