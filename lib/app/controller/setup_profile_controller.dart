@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:foodpad/app/modules/home/nav_bar.dart';
+import 'package:foodpad/app/modules/home/convect_navbar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,6 +78,6 @@ class SetupProfileController extends GetxController {
     prefs.setString("uid", uid);
 
     isLoading.value = false;
-    Get.offAll(() => NavBarScreen());
+    Get.offAll(() => MainNavScreen());
   }
 }

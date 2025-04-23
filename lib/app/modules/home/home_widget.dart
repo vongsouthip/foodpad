@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:foodpad/app/controller/home_controller.dart';
+import 'package:foodpad/app/modules/home/menu_detail.dart';
 import 'package:get/get.dart';
 
 Widget buildRecipeCard() {
@@ -10,11 +11,10 @@ Widget buildRecipeCard() {
       children:
           controller.mostLikedRecipes.map((recipe) {
             return GestureDetector(
-              onTap: () async {
-                final result = await Get.toNamed('/menu_detail', arguments: recipe);
-                if (result == true) {
+              onTap: () {
+                Get.to(() => MenuDetail(), arguments: recipe)!.then((_) {
                   controller.fetchMostLikedRecipes();
-                }
+                });
               },
               child: Padding(
                 padding: const EdgeInsets.all(13.0),
@@ -27,49 +27,84 @@ Widget buildRecipeCard() {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  height: 250,
+                  height: 200,
                   child: Stack(
                     children: [
                       Positioned(
                         bottom: 15,
                         left: 15,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "${recipe['cookingTime']} min",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                              ),
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(16),
                             ),
-                            Text(
-                              recipe['title'],
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 25,
-                              ),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black.withOpacity(0.6),
+                                Colors.transparent,
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
                             ),
-                          ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${recipe['cookingTime']} min",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                recipe['title'],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Positioned(
                         top: 10,
                         right: 10,
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.favorite,
-                              color: Colors.redAccent,
-                              size: 20,
+                        child: Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.vertical(
+                              bottom: Radius.circular(10),
                             ),
-                            const SizedBox(width: 4),
-                            Text(
-                              recipe['likesCount'].toString(),
-                              style: const TextStyle(color: Colors.white),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.black.withOpacity(0.8),
+                                Colors.transparent,
+                              ],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
                             ),
-                          ],
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.favorite,
+                                color: Colors.redAccent,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                recipe['likesCount'].toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

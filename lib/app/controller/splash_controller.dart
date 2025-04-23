@@ -9,7 +9,7 @@ class SplashController extends GetxController {
     
     if (uid != null) {
       // ถ้าล็อกอินแล้ว ให้เปลี่ยน route ไปยังหน้าหลัก
-      Navigator.pushReplacementNamed(context, '/navbar');
+      Navigator.pushReplacementNamed(context, '/main_nav_screen');
     } else {
       Navigator.pushReplacementNamed(context, '/welcome');
     }

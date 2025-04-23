@@ -63,10 +63,11 @@ Widget buildMyRecipes() {
                     text: recipe['title'] ?? '',
                     strokeColor: Colors.black,
                     strokeWidth: 5,
+                    maxLines: 2,
                     textStyle: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 40,
+                      fontSize: 20
                     ),
                   ),
                 ),

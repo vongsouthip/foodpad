@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodpad/app/modules/home/nav_bar.dart';
+import 'package:foodpad/app/modules/home/convect_navbar.dart';
 import 'package:foodpad/app/modules/login_register/setup_screen.dart';
 import 'package:foodpad/app/modules/login_register/welcome_page.dart';
 import 'package:get/get.dart';
@@ -29,7 +29,7 @@ class LoginController extends GetxController {
       final doc =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
       if (doc.exists && doc.data()!.containsKey("firstName")) {
-        Get.offAll(() => NavBarScreen());
+        Get.offAll(() => MainNavScreen());
       } else {
         Get.to(() => SetupProfileScreen(uid: uid));
       }

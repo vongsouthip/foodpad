@@ -4,7 +4,6 @@ import 'package:foodpad/app/modules/home/convect_navbar.dart';
 import 'package:foodpad/app/modules/home/edit_profile_screen.dart';
 import 'package:foodpad/app/modules/home/home.dart';
 import 'package:foodpad/app/modules/home/menu_detail.dart';
-import 'package:foodpad/app/modules/home/nav_bar.dart';
 import 'package:foodpad/app/modules/login_register/login_screen.dart';
 import 'package:foodpad/app/modules/login_register/welcome_page.dart';
 import 'package:foodpad/splash.dart';
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/splash': (context) => SplashView(),
         '/login': (context) => LoginScreen(),
-        '/nav': (context) => NavBarScreen(),
         '/welcome': (context) => WelcomePage(),
         '/editProfile': (context) => EditProfilePage(),
         '/home': (context) => HomePage(),

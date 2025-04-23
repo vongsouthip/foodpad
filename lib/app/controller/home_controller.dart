@@ -15,7 +15,7 @@ class HomeController extends GetxController {
     fetchMostLikedRecipes();
   }
 
-  void fetchMostLikedRecipes() async {
+   fetchMostLikedRecipes() async {
     try {
       final snapshot =
           await FirebaseFirestore.instance.collection('recipes').get();
@@ -23,6 +23,8 @@ class HomeController extends GetxController {
       final sorted =
           snapshot.docs.map((doc) {
             final data = doc.data();
+            data['docId'] = doc.id;
+            data['images'] = data['images'] ??[0];
             final likes =
                 (data['likes'] is List)
                     ? List<String>.from(data['likes'])
@@ -30,6 +32,9 @@ class HomeController extends GetxController {
 
             return {
               'title': data['title'] ?? '',
+              'uid': data['uid'] ?? '',
+              'images': List<String>.from(data['images'] ?? []),
+              // ignore: equal_keys_in_map
               'image':
                   (data['images'] != null &&
                           data['images'] is List &&
@@ -39,7 +44,7 @@ class HomeController extends GetxController {
               'ingredients': data['ingredients'],
               'directions': data['directions'],
               'difficulty': data['difficulty'],
-              'category' : data['category'],
+              'category': data['category'],
               'likesCount': likes.length,
               'cookingTime': data['cookingTime'] ?? 0,
               'docId': doc.id,

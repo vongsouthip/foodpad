@@ -87,6 +87,8 @@ class AddMenuController extends GetxController {
       'category': category.value,
       'ingredients': ingredients,
       'directions': directions,
+      'likes': [],
+      'bookmarkedBy': [],
       'createdAt': FieldValue.serverTimestamp(),
     });
     resetForm();

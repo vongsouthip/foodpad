@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.fillColor,
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Stack(
@@ -21,7 +21,7 @@ class ProfileScreen extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Container(
-                height: 400,
+                height: 250,
                 decoration: BoxDecoration(
                   image:
                       editProfileCtrl.backgroundImage.value.isNotEmpty

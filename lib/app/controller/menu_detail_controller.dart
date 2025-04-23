@@ -3,65 +3,71 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class MenuDetailController extends GetxController {
-  var isLoading = true.obs;
-  var recipeData = <String, dynamic>{}.obs;
+  var authorName = ''.obs;
+  var profileImageUrl = ''.obs;
+  var formattedDate = ''.obs;
   var isLiked = false.obs;
   var isBookmarked = false.obs;
 
-  String get uid => FirebaseAuth.instance.currentUser?.uid ?? '';
+  final String uid = FirebaseAuth.instance.currentUser?.uid ?? '';
 
-  void fetchRecipe(String docId) async {
-    isLoading.value = true;
-    try {
+  Future<void> fetchUserAndData(Map<String, dynamic> recipe) async {
+    final userId = recipe['uid'];
+    final timestamp = recipe['createdAt'];
+    final docId = recipe['docId'];
+
+    if (userId != null) {
+      final doc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .get();
+      if (doc.exists) {
+        final data = doc.data()!;
+        authorName.value = "${data['firstName']} ${data['lastName']}";
+        profileImageUrl.value = data['profileImage'] ?? '';
+      }
+    }
+
+    if (timestamp != null && timestamp is Timestamp) {
+      final dt = timestamp.toDate();
+      formattedDate.value =
+          "${dt.day}/${dt.month}/${dt.year} ${dt.hour}:${dt.minute.toString().padLeft(2, '0')}";
+    }
+
+    if (docId != null) {
       final doc =
           await FirebaseFirestore.instance
               .collection('recipes')
               .doc(docId)
               .get();
       if (doc.exists) {
-        recipeData.value = doc.data()!;
-        isLiked.value = List<String>.from(
-          recipeData['likes'] ?? [],
-        ).contains(uid);
+        final data = doc.data()!;
+        isLiked.value = List<String>.from(data['likes'] ?? []).contains(uid);
         isBookmarked.value = List<String>.from(
-          recipeData['bookmarkedBy'] ?? [],
+          data['bookmarkedBy'] ?? [],
         ).contains(uid);
       }
-    } catch (e) {
-      print("🔥 Error fetching recipe: $e");
     }
-    isLoading.value = false;
   }
 
   Future<void> toggleLike(String docId) async {
-    final docRef = FirebaseFirestore.instance.collection('recipes').doc(docId);
-    final currentLikes = List<String>.from(recipeData['likes'] ?? []);
-
-    if (isLiked.value) {
-      currentLikes.remove(uid);
-    } else {
-      currentLikes.add(uid);
-    }
-
-    await docRef.update({'likes': currentLikes});
-    recipeData['likes'] = currentLikes;
+    if (uid.isEmpty || docId.isEmpty) return;
+    final ref = FirebaseFirestore.instance.collection('recipes').doc(docId);
+    final doc = await ref.get();
+    List<String> likes = List<String>.from(doc.data()?['likes'] ?? []);
+    isLiked.value ? likes.remove(uid) : likes.add(uid);
+    await ref.update({'likes': likes});
     isLiked.toggle();
   }
 
   Future<void> toggleBookmark(String docId) async {
-    final docRef = FirebaseFirestore.instance.collection('recipes').doc(docId);
-    final currentBookmarks = List<String>.from(
-      recipeData['bookmarkedBy'] ?? [],
-    );
-
-    if (isBookmarked.value) {
-      currentBookmarks.remove(uid);
-    } else {
-      currentBookmarks.add(uid);
-    }
-
-    await docRef.update({'bookmarkedBy': currentBookmarks});
-    recipeData['bookmarkedBy'] = currentBookmarks;
+    if (uid.isEmpty || docId.isEmpty) return;
+    final ref = FirebaseFirestore.instance.collection('recipes').doc(docId);
+    final doc = await ref.get();
+    List<String> bookmarks = List<String>.from(doc.data()?['bookmarkedBy'] ?? []);
+    isBookmarked.value ? bookmarks.remove(uid) : bookmarks.add(uid);
+    await ref.update({'bookmarkedBy': bookmarks});
     isBookmarked.toggle();
   }
 }

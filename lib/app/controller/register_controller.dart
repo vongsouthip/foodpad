@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:foodpad/app/modules/home/nav_bar.dart';
+import 'package:foodpad/app/modules/home/convect_navbar.dart';
 import 'package:foodpad/app/modules/login_register/setup_screen.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,7 +49,7 @@ class RegisterController extends GetxController {
     if (doc.exists && doc.data()!.containsKey("firstName")) {
       // ถ้าโปรไฟล์ถูกตั้งค่าแล้ว
       prefs.setString('uid', uid);
-      Get.offAll(() => NavBarScreen());
+      Get.offAll(() => MainNavScreen());
     } else {
       // ยังไม่ได้ตั้งค่าโปรไฟล์
       Get.to(() => SetupProfileScreen(uid: uid));
