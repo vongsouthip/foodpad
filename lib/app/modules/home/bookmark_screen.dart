@@ -31,6 +31,10 @@ class BookmarkScreen extends StatelessWidget {
           key: _listKey,
           initialItemCount: controller.bookmarkedRecipes.length,
           itemBuilder: (context, index, animation) {
+            if (index >= controller.bookmarkedRecipes.length) {
+              return const SizedBox(); // Empty space for animation
+            }
+
             final recipe = controller.bookmarkedRecipes[index];
             return _buildAnimatedItem(recipe, animation, index);
           },

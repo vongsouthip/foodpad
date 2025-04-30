@@ -35,16 +35,20 @@ class SetupProfileScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: setupProfileController.pickImage,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundImage:
-                        setupProfileController.imageFile.value != null
-                            ? FileImage(setupProfileController.imageFile.value!)
-                            : null,
-                    child:
-                        setupProfileController.imageFile.value == null
-                            ? const Icon(Icons.camera_alt)
-                            : null,
+                  child: Obx(
+                    () => CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          setupProfileController.imageFile.value != null
+                              ? FileImage(
+                                setupProfileController.imageFile.value!,
+                              )
+                              : null,
+                      child:
+                          setupProfileController.imageFile.value == null
+                              ? const Icon(Icons.camera_alt)
+                              : null,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),

@@ -21,22 +21,24 @@ class ProfileScreen extends StatelessWidget {
             clipBehavior: Clip.none,
             alignment: Alignment.center,
             children: [
-              Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  image:
-                      editProfileCtrl.backgroundImage.value.isNotEmpty
-                          ? DecorationImage(
-                            image: NetworkImage(
-                              editProfileCtrl.backgroundImage.value,
-                            ),
-                            fit: BoxFit.cover,
-                          )
-                          : null,
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(30),
-                    bottomRight: Radius.circular(30),
+              Obx(
+                () => Container(
+                  height: 250,
+                  decoration: BoxDecoration(
+                    image:
+                        editProfileCtrl.backgroundImage.value.isNotEmpty
+                            ? DecorationImage(
+                              image: NetworkImage(
+                                editProfileCtrl.backgroundImage.value,
+                              ),
+                              fit: BoxFit.cover,
+                            )
+                            : null,
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(30),
+                      bottomRight: Radius.circular(30),
+                    ),
                   ),
                 ),
               ),
@@ -69,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       Get.put(LoginController()).logout();
-                                      
+
                                       Navigator.pop(context, 'OK');
                                       Get.offAllNamed('/login');
                                     },

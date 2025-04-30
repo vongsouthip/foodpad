@@ -31,7 +31,7 @@ class LoginController extends GetxController {
       await pref.setString('uid', uid);
 
       Get.delete<MyRecipesController>(); // เผื่อ Controller ยังค้างจากรอบเก่า
-      Get.delete<BookmarkController>(); // เช่น login หลายรอบ
+      Get.delete<BookmarkController>(); 
       final myRecipesController = Get.put(MyRecipesController());
       final bookmarkController = Get.put(BookmarkController());
       final editProfileController = Get.put(EditProfileController());
