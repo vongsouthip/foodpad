@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/home_controller.dart';
 import 'package:foodpad/app/modules/home/menu_detail.dart';
 import 'package:get/get.dart';
 
 Widget buildRecipeCard() {
-  final controller = Get.put(HomeController());
+  final controller = Get.find<HomeController>();
   return Obx(
     () => Column(
       children:
@@ -84,8 +85,8 @@ Widget buildRecipeCard() {
                                 Colors.black.withOpacity(0.8),
                                 Colors.transparent,
                               ],
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
                             ),
                           ),
                           child: Row(
@@ -95,7 +96,7 @@ Widget buildRecipeCard() {
                                 color: Colors.redAccent,
                                 size: 20,
                               ),
-                              const SizedBox(width: 4),
+                              SizedBox(width: 4.w),
                               Text(
                                 recipe['likesCount'].toString(),
                                 style: const TextStyle(

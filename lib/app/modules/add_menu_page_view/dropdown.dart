@@ -71,7 +71,7 @@ Widget dropDownDifficulty() {
                   ? controller.category.value
                   : null,
           items:
-              ['Dessert', 'Main Dish', 'Drink']
+              ['Desert', 'Main Dish', 'Drink', 'Soup', 'Snack']
                   .map(
                     (cat) => DropdownMenuItem(
                       value: cat,

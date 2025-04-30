@@ -25,6 +25,7 @@ class MyRecipesController extends GetxController {
     isLoading.value = true;
     try {
       final uid = FirebaseAuth.instance.currentUser?.uid;
+
       if (uid == null) {
         recipes.clear();
         isLoading.value = false;
@@ -60,7 +61,8 @@ class MyRecipesController extends GetxController {
           .collection('recipes')
           .doc(docId)
           .delete();
-      fetchMyRecipes();
+      await fetchMyRecipes();
+      Get.back();
       Get.back(result: true);
       Get.snackbar("Deleted", "Recipe has been deleted");
     } catch (e) {

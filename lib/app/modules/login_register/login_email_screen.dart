@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/login_email_controller.dart';
 import 'package:foodpad/app/modules/components/colors.dart';
 import 'package:get/get.dart';
@@ -23,7 +24,7 @@ class LoginEmailScreen extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                width: 50,
+                width: 50.w,
                 height: 50,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
@@ -90,9 +91,11 @@ class LoginEmailScreen extends StatelessWidget {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "Password is required";
+                      } else if (value.length < 6) {
+                        return "Password must be at least 6 characters";
                       }
                       return null;
-                    },
+                    }
                   ),
                   const SizedBox(height: 20),
                 ],

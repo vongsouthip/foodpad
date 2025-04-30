@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/menu_controller.dart';
 import 'package:foodpad/app/modules/add_menu_page_view/edit_my_menu_page.dart';
 import 'package:get/get.dart';
@@ -67,7 +68,7 @@ Widget buildMyRecipes() {
                     textStyle: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20
+                      fontSize: 20,
                     ),
                   ),
                 ),
@@ -92,7 +93,7 @@ Widget buildMyRecipes() {
                             size: 10,
                             color: Colors.white,
                           ),
-                          const SizedBox(width: 4),
+                          SizedBox(width: 4.w),
                           Text(
                             "${recipe['cookingTime']} min",
                             style: const TextStyle(

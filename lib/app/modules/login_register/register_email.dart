@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/register_controller.dart';
 import 'package:foodpad/app/modules/components/colors.dart';
 import 'package:foodpad/app/modules/login_register/login_email_screen.dart';
@@ -40,7 +41,7 @@ class RegisterScreen extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                width: 50,
+                width: 50.w,
                 height: 50,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
@@ -82,6 +83,7 @@ class RegisterScreen extends StatelessWidget {
                       if (!value.contains("@")) {
                         return "please enter a valid email";
                       }
+
                       return null;
                     },
                     decoration: InputDecoration(
@@ -130,7 +132,20 @@ class RegisterScreen extends StatelessWidget {
                         borderSide: BorderSide.none,
                       ),
                     ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "please enter your password";
+                      }
+                      if (value.length < 6) {
+                        return "password must be at least 6 characters";
+                      }
+                      if (value != passwordController.text) {
+                        return "passwords do not match";
+                      }
+                      return null;
+                    },
                   ),
+
                   const SizedBox(height: 20),
                 ],
               ),
@@ -170,18 +185,17 @@ class RegisterScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: registerController.isLoading.value
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                      )
-                    : const Text(
-                        "Register",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                child:
+                    registerController.isLoading.value
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                          "Register",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
               ),
             ),
           ],

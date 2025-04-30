@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodpad/app/controller/add_menu_controller.dart';
-import 'package:foodpad/app/controller/home_controller.dart';
 import 'package:foodpad/app/modules/add_menu_page_view/add_direction_page.dart';
 import 'package:foodpad/app/modules/add_menu_page_view/info_page.dart';
 import 'package:foodpad/app/modules/add_menu_page_view/ingredients_page.dart';
@@ -91,9 +90,7 @@ class AddMenu extends StatelessWidget {
                           );
                         } else {
                           controller.submitRecipe();
-                          Get.offAllNamed('/main_nav_screen');
-                          // Get.find<HomeController>().fetchMostLikedRecipes();
-                          // Get.back();
+                          Get.back();
                         }
                       },
                       child: Text(

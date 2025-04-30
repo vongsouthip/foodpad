@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/edit_profile_controller.dart';
 import 'package:foodpad/app/controller/login_email_controller.dart';
 import 'package:foodpad/app/modules/add_menu_page_view/my_menu_page.dart';
@@ -68,6 +69,7 @@ class ProfileScreen extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       Get.put(LoginController()).logout();
+                                      
                                       Navigator.pop(context, 'OK');
                                       Get.offAllNamed('/login');
                                     },
@@ -108,7 +110,7 @@ class ProfileScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(width: 24),
+              SizedBox(width: 24.w),
               Obx(
                 () => Text(
                   '${editProfileCtrl.firstName.value} ${editProfileCtrl.lastName.value}',
@@ -136,15 +138,14 @@ class ProfileScreen extends StatelessWidget {
               style: TextStyle(fontSize: 16, color: CustomColors.mainColor),
             ),
           ),
-
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FilterButton(label: 'Food Recipes', icon: Icons.restaurant_menu),
-              SizedBox(width: 10),
-              FilterButton(label: 'Cookbook', icon: Icons.book),
-            ],
+          Divider(),
+          Text(
+            'My Recipes',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Colors.black,
+            ),
           ),
           Expanded(
             child: Container(
@@ -153,8 +154,6 @@ class ProfileScreen extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 child: buildMyRecipes(),
               ),
-
-              
             ),
           ),
         ],

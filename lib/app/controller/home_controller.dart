@@ -1,13 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  var recipes = {}.obs;
-  var isLoading = true.obs;
-  var imageUrls = [].obs;
-  var ingredients = <String>[].obs;
-  var directions = <String>[].obs;
-  var mostLikedRecipes = [].obs;
+  var mostLikedRecipes = RxList<Map<String, dynamic>>([]);
+  var selectedCategory = ''.obs;
+  StreamSubscription? recipeSubscription;
 
   @override
   void onInit() {
@@ -15,47 +14,64 @@ class HomeController extends GetxController {
     fetchMostLikedRecipes();
   }
 
-   fetchMostLikedRecipes() async {
-    try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection('recipes').get();
+  @override
+  void onReady() {
+    super.onReady();
+    fetchMostLikedRecipes();
+  }
 
-      final sorted =
-          snapshot.docs.map((doc) {
-            final data = doc.data();
-            data['docId'] = doc.id;
-            data['images'] = data['images'] ??[0];
-            final likes =
-                (data['likes'] is List)
-                    ? List<String>.from(data['likes'])
-                    : <String>[];
+  void changeCategory(String category) {
+    selectedCategory.value = category == 'ALL' ? '' : category;
+    fetchMostLikedRecipes();
+  }
 
-            return {
-              'title': data['title'] ?? '',
-              'uid': data['uid'] ?? '',
-              'images': List<String>.from(data['images'] ?? []),
-              // ignore: equal_keys_in_map
-              'image':
-                  (data['images'] != null &&
-                          data['images'] is List &&
-                          (data['images'] as List).isNotEmpty)
-                      ? data['images'][0]
-                      : '',
-              'ingredients': data['ingredients'],
-              'directions': data['directions'],
-              'difficulty': data['difficulty'],
-              'category': data['category'],
-              'likesCount': likes.length,
-              'cookingTime': data['cookingTime'] ?? 0,
-              'docId': doc.id,
-            };
-          }).toList();
+  Future<void> fetchMostLikedRecipes() async {
+    // ยกเลิกการฟังเก่าก่อน ถ้ามี
+    recipeSubscription?.cancel();
 
-      sorted.sort((a, b) => b['likesCount'].compareTo(a['likesCount']));
+    recipeSubscription = FirebaseFirestore.instance
+        .collection('recipes')
+        .where(
+          'category',
+          isEqualTo:
+              selectedCategory.value.isEmpty ? null : selectedCategory.value,
+        )
+        .snapshots()
+        .listen((snapshot) {
+          final recipes =
+              snapshot.docs.map((doc) {
+                final data = doc.data();
+                final likes =
+                    (data['likes'] is List)
+                        ? List<String>.from(data['likes'])
+                        : <String>[];
+                return {
+                  'title': data['title'] ?? '',
+                  'uid': data['uid'] ?? '',
+                  'images': List<String>.from(data['images'] ?? []),
+                  'image':
+                      (data['images'] != null && data['images'].isNotEmpty)
+                          ? data['images'][0]
+                          : '',
+                  'likesCount': likes.length,
+                  'docId': doc.id,
+                  'ingredients': data['ingredients'] ?? '',
+                  'directions': data['directions'] ?? '',
+                  'cookingTime': data['cookingTime'] ?? '',
+                  'difficulty': data['difficulty'] ?? '',
+                  'category': data['category'] ?? '',
+                  'createdAt': data['createdAt'] ?? '',
+                };
+              }).toList();
 
-      mostLikedRecipes.value = sorted.take(5).toList();
-    } catch (e) {
-      print("🔥 Error fetching most liked: $e");
-    }
+          recipes.sort((a, b) => b['likesCount'].compareTo(a['likesCount']));
+          mostLikedRecipes.assignAll(recipes); // อัปเดต Obx อัตโนมัติ
+        });
+  }
+
+  @override
+  void onClose() {
+    recipeSubscription?.cancel();
+    super.onClose();
   }
 }

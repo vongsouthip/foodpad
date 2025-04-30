@@ -1,6 +1,7 @@
 // ✅ AddMenuController.dart - Save images to Cloudinary
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foodpad/app/controller/menu_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,6 +33,7 @@ class AddMenuController extends GetxController {
     resetForm();
   }
 
+  //ใช้ image_picker เพื่อเลือกรูปภาพหลายรูปในคราวเดียว แล้วเก็บไว้ใน recipeImages (เป็น List<File>)
   void pickImage() async {
     final picked = await picker.pickMultiImage();
     if (picked != null) {
@@ -54,7 +56,10 @@ class AddMenuController extends GetxController {
     for (var image in recipeImages) {
       final fileName = image.path.split('/').last;
       final formData = dio.FormData.fromMap({
-        "file": await dio.MultipartFile.fromFile(image.path, filename: fileName),
+        "file": await dio.MultipartFile.fromFile(
+          image.path,
+          filename: fileName,
+        ),
         "upload_preset": "code camp",
       });
 
@@ -91,6 +96,8 @@ class AddMenuController extends GetxController {
       'bookmarkedBy': [],
       'createdAt': FieldValue.serverTimestamp(),
     });
+
+    Get.find<MyRecipesController>().fetchMyRecipes();
     resetForm();
   }
 

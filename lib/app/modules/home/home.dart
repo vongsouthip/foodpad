@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:foodpad/app/controller/edit_profile_controller.dart';
 import 'package:foodpad/app/controller/home_controller.dart';
 import 'package:foodpad/app/modules/home/add_menu.dart';
@@ -8,22 +9,30 @@ import 'package:foodpad/app/modules/home/profile_screen.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final editProfileCtrl = Get.put(EditProfileController());
+  final homeCtrl = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async {
-          await Future.delayed(const Duration(seconds: 1));
-          Get.find<HomeController>().fetchMostLikedRecipes();
+          homeCtrl.fetchMostLikedRecipes();
         },
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -62,11 +71,6 @@ class HomePage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.search, size: 30),
-                      ),
                     ],
                   ),
                 ),
@@ -80,15 +84,17 @@ class HomePage extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Category scroll
                 Container(
-                  height: 60,
+                  height: 40,
                   padding: const EdgeInsets.only(left: 16),
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      categoryChip('Breakfast', '🍞'),
-                      categoryChip('Lunch', '🍔'),
-                      categoryChip('Dinner', '🍟'),
-                      categoryChip('Snacks', '🍟'),
+                      categoryChip('ALL'),
+                      categoryChip('Desert'),
+                      categoryChip('Main Dish'),
+                      categoryChip('Drink'),
+                      categoryChip('Snack'),
+                      categoryChip('Soup'),
                     ],
                   ),
                 ),
@@ -120,20 +126,32 @@ class HomePage extends StatelessWidget {
   }
 }
 
-Widget categoryChip(String label, String emoji) {
-  return Container(
-    margin: const EdgeInsets.only(right: 12),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    decoration: BoxDecoration(
-      color: const Color(0xFFDFF5F2),
-      borderRadius: BorderRadius.circular(16),
-    ),
-    child: Row(
-      children: [
-        Text(emoji, style: TextStyle(fontSize: 18)),
-        SizedBox(width: 8),
-        Text(label, style: TextStyle(fontWeight: FontWeight.w500)),
-      ],
-    ),
-  );
+Widget categoryChip(String label) {
+  final controller = Get.put(HomeController());
+  return Obx(() {
+    final isSelected = controller.selectedCategory.value == label;
+    return GestureDetector(
+      onTap: () => controller.changeCategory(label),
+      child: Container(
+        margin: const EdgeInsets.only(right: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.teal : const Color(0xFFDFF5F2),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: 8.w),
+            Text(
+              label,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: isSelected ? Colors.white : Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  });
 }

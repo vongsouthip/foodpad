@@ -62,11 +62,18 @@ class MenuDetailController extends GetxController {
   }
 
   Future<void> toggleBookmark(String docId) async {
-    if (uid.isEmpty || docId.isEmpty) return;
     final ref = FirebaseFirestore.instance.collection('recipes').doc(docId);
     final doc = await ref.get();
-    List<String> bookmarks = List<String>.from(doc.data()?['bookmarkedBy'] ?? []);
-    isBookmarked.value ? bookmarks.remove(uid) : bookmarks.add(uid);
+    List<String> bookmarks = List<String>.from(doc['bookmarkedBy'] ?? []);
+
+    if (isBookmarked.value) {
+      bookmarks.remove(uid);
+    } else {
+      if (uid.isNotEmpty && !bookmarks.contains(uid)) {
+        bookmarks.add(uid);
+      }
+    }
+
     await ref.update({'bookmarkedBy': bookmarks});
     isBookmarked.toggle();
   }

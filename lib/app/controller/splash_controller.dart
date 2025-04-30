@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashController extends GetxController {
   Future<void> checkLoginStatus(BuildContext context) async {
+    await Future.delayed(const Duration(seconds: 2));
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? uid = prefs.getString('uid');
     
